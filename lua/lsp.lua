@@ -17,6 +17,7 @@ end)
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lspconfig = require('lspconfig')
 
@@ -24,6 +25,9 @@ local lspconfig = require('lspconfig')
 local servers = { 'html', 'intelephense', 'dartls', 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'cssls' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
+    on_attach = function (client, bufnr)
+      require 'lsp_signature'.on_attach();
+    end,
     capabilities = capabilities,
     flags = {
       debounce_text_changes = 1000,
@@ -37,7 +41,7 @@ local luasnip = require 'luasnip'
 local lspkind = require 'lspkind'
 
 -- disable virtual text
-vim.diagnostic.config({ virtual_text = false })
+-- vim.diagnostic.config({ virtual_text = false })
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -86,7 +90,6 @@ cmp.setup {
     { name = 'buffer', keyword_length = 6 },
   },
 
-
   formatting = {
     format = lspkind.cmp_format {
       with_text = true,
@@ -105,7 +108,9 @@ cmp.setup {
 
   experimental = {
     native_menu = false,
-  }
+  },
+
+  preselect = cmp.PreselectMode.None,
 }
 
 -- Autocompletion when typing command
@@ -114,7 +119,7 @@ cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
-    { name = 'cmdline', keyword_length = 5 }
+    { name = 'cmdline' }
   })
 })
 
@@ -125,4 +130,3 @@ cmp.setup.cmdline('/', {
     { name = 'buffer' }
   })
 })
-

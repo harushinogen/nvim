@@ -35,14 +35,14 @@ nmap('gD', '', lbuf.declaration)
 nmap('gd', '', lbuf.definition)
 nmap('K', '', lbuf.hover)
 nmap('<leader>gi', '', lbuf.implementation)
--- nmap('<C-s>', '', lbuf.signature_help)
+nmap('<C-e>', '', lbuf.signature_help)
 nmap('<leader>wa', '', lbuf.add_workspace_folder)
 nmap('<leader>wr', '', lbuf.remove_workspace_folder)
-nmap('<leader>wl', '', function () print(vim.inspect(lbuf.list_workspace_folders())) end)
+nmap('<leader>wl', '', function() print(vim.inspect(lbuf.list_workspace_folders())) end)
 nmap('<leader>D', '', lbuf.type_definition)
 nmap('<leader>rn', '', lbuf.rename)
 nmap('<leader>ca', '', lbuf.code_action)
-nmap('gr', '', lbuf.references)
+nmap('gr', ':Telescope lsp_references<cr>')
 nmap('<leader>e', '', dgn.open_float)
 nmap('[d', '', dgn.goto_prev)
 nmap(']d', '', dgn.goto_next)
@@ -60,6 +60,10 @@ nmap("<C-x>", "<C-x>")
 nmap("<leader><leader>i", "<cmd>so ~/.config/nvim/init.lua<cr>")
 nmap("<leader><leader>s", "<cmd>so ~/.config/nvim/lua/snippets.lua<cr>")
 nmap("<leader>l", ":nohlsearch<C-r>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>")
+nmap("<a-TAB>", "<c-w>w")
+nmap("<a-s>", "<cmd>sp<cr>")
+nmap("<a-v>", "<cmd>vsp<cr>")
+nmap("<a-x>", "<cmd>close<cr>")
 
 -------------
 -- Luasnip --
@@ -73,15 +77,27 @@ vim.keymap.set({ "i", "s" }, "<c-s>", function()
 end, { silent = true })
 
 -- Jump to previous jump
-vim.keymap.set({ "i", "s" }, "<c-b>", function()
+vim.keymap.set({ "i", "s" }, "<c-h>", function()
 	if ls.jumpable(-1) then
 		ls.jump(-1)
 	end
 end, { silent = true })
 
 -- Select between items
-vim.keymap.set("i", "c-n", function()
+vim.keymap.set({ "i", "s" }, "<c-l>", function()
 	if ls.choice_active() then
 		ls.change_choice(1)
 	end
 end)
+
+
+
+-- Treesitter
+nmap('<leader>th', ':TSHighlightCapturesUnderCursor<cr>')
+nmap('<leader>tp', ':TSPlaygroundToggle<cr>')
+
+-- Theming
+nmap('<leader><leader>t', '<cmd>so ~/.config/nvim/lua/colorscheme.lua<cr>')
+
+-- Nvim Tree
+nmap('<a-f>', ':NvimTreeToggle<cr>')

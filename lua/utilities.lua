@@ -1,3 +1,10 @@
+-- nicer input and select overide
+vim.ui.select = require"popui.ui-overrider"
+vim.ui.input = require"popui.input-overrider"
+
+-- nvim tree
+require'nvim-tree'.setup {}
+
 -- NNN
 require("nnn").setup()
 local builtin = require("nnn").builtin
@@ -11,6 +18,7 @@ vim.opt.list = true
 require("indent_blankline").setup {
     show_end_of_line = true,
 }
+
 
 -- Comment.nvim
 require('Comment').setup()
@@ -45,7 +53,7 @@ require('telescope').setup{
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
 
-    file_ignore_patterns = {"node_modules/.*", "build/.*", ".*png", ".*jpg", ".*webp"},
+    file_ignore_patterns = {"plugged/.*","backup/.*","pack/.*", "plugin/.*","autoload/.*","node_modules/.*", "build/.*", ".*png", ".*jpg", ".*webp"},
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 0,
     border = {},
