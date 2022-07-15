@@ -46,7 +46,7 @@ nmap('<leader>e', '', dgn.open_float)
 nmap('[d', '', dgn.goto_prev)
 nmap(']d', '', dgn.goto_next)
 nmap('<leader>q', '', dgn.setloclist)
-nmap('<leader>f', '', lbuf.formatting)
+nmap('<leader>f', '', function() lbuf.format({async = true}) end)
 
 -- Cokeline bindings
 nmap("<leader>b", "<Plug>(cokeline-pick-focus)")
