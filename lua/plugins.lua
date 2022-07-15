@@ -7,8 +7,6 @@ require('packer').startup(function()
   use 'noib3/nvim-cokeline'
   use 'kyazdani42/nvim-web-devicons' -- If you want devicons
 
-
-
   -- Nvim tree
   use 'kyazdani42/nvim-tree.lua'
 
@@ -50,7 +48,7 @@ require('packer').startup(function()
   -- 	requires = "nvim-lua/plenary.nvim"
   -- }
 
-  use 'ray-x/lsp_signature.nvim'
+  -- use 'ray-x/lsp_signature.nvim'
 
   -- Nightfox
   use { "EdenEast/nightfox.nvim", tag = "v1.0.0" } -- Packer
@@ -89,7 +87,6 @@ require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'onsails/lspkind.nvim' -- Additional information in the completion menu
 
-
   -- Snippet
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
@@ -107,5 +104,5 @@ require('packer').startup(function()
   -- use 'nvim-lualine/lualine.nvim'
 
   -- Polyglot for syntax highlighting
-  -- use 'sheerun/vim-polyglot'
+  use 'sheerun/vim-polyglot'
 end)

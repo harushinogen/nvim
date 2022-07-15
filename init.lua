@@ -8,6 +8,7 @@ require 'snippets'
 require 'treesitter'
 require 'cosmetics'
 require 'colorscheme'
+require 'statusline'
 
 local o = vim.opt
 o.list = true
@@ -61,6 +62,9 @@ set bg=dark
 syntax enable
 
 hi Search guibg=black guifg=white
+hi link xmlTagName Title
+
+set winbar=%t%m
 
 ]]
 

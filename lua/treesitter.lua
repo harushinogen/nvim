@@ -7,12 +7,12 @@ require 'nvim-treesitter.configs'.setup {
 	highlight = {
 		enable = true,
 
-		disable = { "css" },
+		disable = { "css", "vala" },
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
+		additional_vim_regex_highlighting = {"vala", "css"},
 	},
 
 
@@ -89,5 +89,16 @@ require 'nvim-treesitter.configs'.setup {
 				['[]'] = '@class.outer'
 			}
 		}
+	}
+}
+
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.xml = {
+	install_info = {
+		url ="~/repos/utils/tree-sitter-xml",
+		files = {  "src/parser.c" },
+		-- optional entries:
+		branch = "main",
+		require_generate_from_gramar = false,
 	}
 }

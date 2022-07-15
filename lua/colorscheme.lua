@@ -16,11 +16,14 @@ Color.new('morningsky', '#8490c7')
 Color.new('cardboard', '#caa979')
 Color.new('gold', '#ebbc61')
 Color.new('bg2', '#504945')
+Color.new('comment', '#928374')
 
 -- Define highlights in terms of `colors` and `groups`
 -- Group.new('Function', colors.yellow, colors.background, styles.bold)
 Group.new('Warning', colors.gold, colors.bg2)
 Group.new('Danger', colors.orange)
+Group.new('TSComment', colors.comment)
+Group.new('tag_name', colors.purple)
 -- --
 -- Group.new('Statement', colors.orange, nil, nil)
 -- Group.new('Constant', colors.sky, nil, nil)
