@@ -63,8 +63,11 @@ syntax enable
 
 hi Search guibg=black guifg=white
 hi link xmlTagName Title
+hi StatusFileName guifg=#83a598 gui=bold
+hi StatusGitBranch guifg=#fd7d17 gui=bold
 
 set winbar=%t%m
+set laststatus=3
 
 ]]
 
