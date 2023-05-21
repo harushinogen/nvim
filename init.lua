@@ -9,6 +9,7 @@ require 'treesitter'
 require 'cosmetics'
 require 'colorscheme'
 require 'statusline'
+-- require 'config.dap'.setup()
 
 local o = vim.opt
 o.list = true
@@ -31,6 +32,9 @@ let g:floaterm_width = 1
 let g:gruvbox_material_palette = 'original'
 let g:gruvbox_material_background = 'soft'
 let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_transparent_background = 1
+
+set mouse=
 
 " Colorscheme stuff
 set termguicolors
@@ -40,6 +44,8 @@ filetype plugin indent on
 " Autocomplete stuff
 " set completeopt=menuone,noinsert,noselect
 set shortmess+=c
+
+set nowrap
 
 " Highlighting
 
@@ -56,20 +62,38 @@ augroup vimrc_help
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
 
-set background=dark
-set bg=dark
+" set background=dark
+" set bg=dark
+
+set scrolloff=5
 
 syntax enable
 
-hi Search guibg=black guifg=white
-hi link xmlTagName Title
+"h i Search guibg=black guifg=white
+hi link xmlTagN xmlTagName
 hi StatusFileName guifg=#83a598 gui=bold
-hi StatusGitBranch guifg=#fd7d17 gui=bold
+hi link StatusGitBranch Constant
+hi ColorColumn guifg=#fd7d17 gui=bold
+hi TSComment guifg=#bdae93
+hi scssTSProperty guifg=blue
+" hi LineNr guifg=#70ddfc
+" hi VertSplit guibg=blue ctermbg=blue
 
-set winbar=%t%m
+" Diagnostic Virtual text
+:hi DiagnosticVirtualTextError guifg=#ea6962
+:hi DiagnosticVirtualTextInfo guifg=#7daea3
+:hi DiagnosticVirtualTextHint guifg=#89b482
+:hi DiagnosticVirtualTextWarn guifg=#d8a657
+
+" set winbar=%t%m
 set laststatus=3
 
 ]]
+
+if vim.g.neovide then
+  vim.o.guifont = "FuraCode Nerd Font:h11"
+  vim.g.neovide_cursor_animation_length = 0
+end
 
 
 -- nnoremap <leader>l :nohlsearch<C-r>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>

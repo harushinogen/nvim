@@ -18,7 +18,7 @@ require('cokeline').setup({
 
 	components = {
 		{
-			text = ' ',
+			text = function(buffer) return buffer.is_focused and '│ ' or '  ' end,
 		},
 		{
 			text = function(buffer)
@@ -40,13 +40,17 @@ require('cokeline').setup({
 			text = function(buffer) return buffer.is_modified and '*' or ' ' end,
 		},
 		{
-			text = function(buffer) return buffer.filename .. '  ' end,
+			text = function(buffer) return buffer.is_focused and  buffer.filename .. ' │' or buffer.filename .. '  ' end,
 			style = function(buffer) return buffer.is_focused and 'bold' or nil end,
 		},
 	},
 
 })
 
+-- Tokyo Night
+-- require("tokyonight").setup({
+-- 	transparent = true
+-- })
 -- lualine
 
 --[[ require('lualine').setup({

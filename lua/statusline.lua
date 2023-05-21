@@ -2,9 +2,10 @@ name = function() return vim.api.nvim_buf_get_name(0) end
 cwd = vim.fn.getcwd
 
 function get_name()
-    local escaped_cwd = cwd():gsub("([%^%$%(%)%%%.%[%]%*%+%-%?%)])", "%%%1")
-    local filename = name():gsub(escaped_cwd, ""):sub(2)
-    if (filename == "") then
+    local escaped_cwd = string.gsub(cwd(), "([%^%$%(%)%%%.%[%]%*%+%-%?%)])", "%%%1")
+    local filename = string.gsub(name(), escaped_cwd, ""):sub(2)
+
+    if (filename == "" or filename == nil) then
         return "[No Name]"
     else
         return filename
@@ -52,6 +53,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
         vim.schedule(
             function()
                 vim.b.git_status = os.capture("git branch 2>/dev/null | grep '*'", false):gsub("%* ", "│  ")
+                vim.b.filename = get_name()
             end
         )
     end
@@ -66,20 +68,23 @@ function get_file_type()
         return filetype == nil and "" or filetype
     else
         vim.cmd("hi TypeIcon guifg=" .. color .. " gui=bold")
+        if (filetype == nil) then
+            filetype = ""
+        end
         return "│ " .. icon .. " " .. filetype
     end
 end
 
-o.statusline = "%#StatusFileName#│ %{luaeval('get_name()')}%m%r%h "
+o.statusline = [[%#conditional#│ %{get(b:, "filename", "")}%m%r%h ]]
     .. "%#StatusGitBranch#"
     .. [[%{get(b:, "git_status", "")}]]
-    .. "%#DiagnosticSignError# "
-    .. [[%{luaeval('get_diag_count("ERROR")')} ]]
-    .. "%#DiagnosticSignWarn#"
-    .. [[%{luaeval('get_diag_count("WARN")')} ]]
-    .. "%#DiagnosticSignInfo#"
-    .. [[%{luaeval('get_diag_count("INFO")')} ]]
-    .. "%#DiagnosticSignHint#"
-    .. [[%{luaeval('get_diag_count("HINT")')}]]
+    -- .. "%#DiagnosticSignError# "
+    -- .. [[%{luaeval('get_diag_count("ERROR")')} ]]
+    -- .. "%#DiagnosticSignWarn#"
+    -- .. [[%{luaeval('get_diag_count("WARN")')} ]]
+    -- .. "%#DiagnosticSignInfo#"
+    -- .. [[%{luaeval('get_diag_count("INFO")')} ]]
+    -- .. "%#DiagnosticSignHint#"
+    -- .. [[%{luaeval('get_diag_count("HINT")')}]]
     .. "%=%#TypeIcon#%{luaeval('get_file_type()')}"
-    .. " %#plugNumber#│ %l:%c "
+    .. " %#string#│ %l:%c "

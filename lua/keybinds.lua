@@ -8,6 +8,10 @@ local function nmap(shortcut, command, callback)
 	map('n', shortcut, command, callback)
 end
 
+local function vmap(shortcut, command, callback)
+	map('v', shortcut, command, callback)
+end
+
 local function xmap(shortcut, command)
 	map('x', shortcut, command)
 end
@@ -46,7 +50,7 @@ nmap('<leader>e', '', dgn.open_float)
 nmap('[d', '', dgn.goto_prev)
 nmap(']d', '', dgn.goto_next)
 nmap('<leader>q', '', dgn.setloclist)
-nmap('<leader>f', '', function() lbuf.format({async = true}) end)
+nmap('<leader>==', '', lbuf.format)
 
 -- Cokeline bindings
 nmap("<leader>b", "<Plug>(cokeline-pick-focus)")
@@ -89,14 +93,67 @@ vim.keymap.set({ "i", "s" }, "<c-l>", function()
 	end
 end)
 
-
+-- nmap("<leader>db", ":lua require'dap'.toggle_breakpoint()<cr>")
+-- nmap("<leader>dc", ":lua require'dap'.continue()<cr>")
 
 -- Treesitter
 nmap('<leader>th', ':TSHighlightCapturesUnderCursor<cr>')
 nmap('<leader>tp', ':TSPlaygroundToggle<cr>')
+nmap('<leader>tlk', ':Telescope keymaps<cr>')
 
 -- Theming
 nmap('<leader><leader>t', '<cmd>so ~/.config/nvim/lua/colorscheme.lua<cr>')
 
 -- Nvim Tree
-nmap('<a-f>', ':NvimTreeToggle<cr>')
+nmap('<a-f>', ':NvimTreeFindFileToggle<cr>')
+nmap('<c-w>f', ':NvimTreeFocus<cr>')
+
+-- require("telescope").load_extension("refactoring")
+
+-- Yank to clipboard
+vmap('<leader>y', '"+y')
+
+-- remap to open the Telescope refactoring menu in visual mode
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>rr",
+	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+	{ noremap = true }
+)
+
+-- Rest nvim
+nmap('<leader>rr', '<Plug>RestNvim')
+
+-- Autopairs
+local npairs = require("nvim-autopairs")
+local Rule = require('nvim-autopairs.rule')
+
+npairs.setup({
+	fast_wrap = {
+		map = '<M-e>',
+		chars = { '{', '[', '(', '"', "'" },
+		pattern = [=[[%'%"%>%]%)%}%,]]=],
+		end_key = '$',
+		keys = 'qwertyuiopzxcvbnmasdfghjkl',
+		check_comma = true,
+		highlight = 'Search',
+		highlight_grey = 'Comment'
+	},
+	check_ts = true,
+	ts_config = {
+		lua = { 'string' }, -- it will not add a pair on that treesitter node
+		javascript = { 'template_string' },
+		java = false, -- don't check treesitter on java
+	}
+})
+
+local ts_conds = require('nvim-autopairs.ts-conds')
+
+
+-- press % => %% only while inside a comment or string
+npairs.add_rules({
+	Rule("%", "%", "lua")
+			:with_pair(ts_conds.is_ts_node({ 'string', 'comment' })),
+	Rule("$", "$", "lua")
+			:with_pair(ts_conds.is_not_ts_node({ 'function' }))
+})

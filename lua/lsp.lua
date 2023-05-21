@@ -1,28 +1,17 @@
 -- nvim_lsp object
-local lsp_installer = require("nvim-lsp-installer")
-
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-
-  -- (optional) Customize the options passed to the server
-  -- if server.name == "tsserver" then
-  --     opts.root_dir = function() ... end
-  -- end
-
-  -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
-  server:setup(opts)
-  vim.cmd [[ do User LspAttachBuffers ]]
-end)
+require("mason").setup()
+require("mason-lspconfig").setup()
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'html', 'intelephense', 'vala_ls' ,'dartls', 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'cssls' }
+local servers = { 'html', 'intelephense', 'vala_ls', 'dartls', 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'cssls',
+  'svelte', "lua_ls", 'prismals' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = function (client, bufnr)
@@ -43,74 +32,35 @@ local lspkind = require 'lspkind'
 -- disable virtual text
 -- vim.diagnostic.config({ virtual_text = false })
 
+
 -- nvim-cmp setup
-local cmp = require 'cmp'
+local cmp = require('cmp')
 cmp.setup {
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end,
   },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    -- ['<Tab>'] = function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   else
-    --     fallback()
-    --   end
-    -- end,
-    -- ['<S-Tab>'] = function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_prev_item()
-    --   elseif luasnip.jumpable(-1) then
-    --     luasnip.jump(-1)
-    --   else
-    --     fallback()
-    --   end
-    -- end,
-  },
-
-  sources = {
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'nvim_lua' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer', keyword_length = 6 },
-  },
-
+    { name = 'luasnip' }, -- For luasnip users.
+  }, {
+    { name = 'buffer' },
+  }),
   formatting = {
-    format = lspkind.cmp_format {
-      with_text = true,
-      mode = 'symbol',
-      maxwidth = 50,
-      maxheight = 10,
-      menu = {
-        buffer = '[buf]',
-        nvim_lsp = '[lsp]',
-        nvim_lua = '[nvim api]',
-        luasnip = '[snippet]',
-        path = '[path]',
-      }
-    }
+    format = lspkind.cmp_format(),
   },
-
-  experimental = {
-    native_menu = false,
-  },
-
-  preselect = cmp.PreselectMode.None,
 }
 
 -- Autocompletion when typing command
@@ -130,3 +80,27 @@ cmp.setup.cmdline('/', {
     { name = 'buffer' }
   })
 })
+
+-- Null ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.completion.spell,
+  },
+})
+
+-- null_ls.setup({
+--   on_attach = function(client, bufnr)
+--     if client.resolved_capabilities.document_formatting then
+--       vim.cmd("nnoremap <silent><buffer> <Leader>== :lua vim.lsp.buf.formatting({ async = false })<CR>")
+--       -- format on save
+--       vim.cmd("autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting({ async = false })")
+--     end
+--
+--     if client.resolved_capabilities.document_range_formatting then
+--       vim.cmd("xnoremap <silent><buffer> <Leader>== :lua vim.lsp.buf.range_formatting({})<CR>")
+--     end
+--   end,
+-- })

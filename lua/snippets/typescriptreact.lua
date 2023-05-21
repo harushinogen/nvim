@@ -24,7 +24,7 @@ tsx.init = function(ls)
 		return vim.fn.expand("%:t:r")
 	end
 
-	ls.add_snippets('typescriptreact', {
+	local snippet = {
 		-- functional component
 		s('fc', fmt([[
 		{}({}) {}{{
@@ -82,7 +82,10 @@ tsx.init = function(ls)
 			i(2),
 			t ");",
 		})
-	})
+	}
+
+	ls.add_snippets('typescriptreact', snippet)
+	ls.add_snippets('javascript', snippet)
 
 end
 

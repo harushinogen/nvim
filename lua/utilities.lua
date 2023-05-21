@@ -1,6 +1,5 @@
 -- nicer input and select overide
-vim.ui.select = require"popui.ui-overrider"
-vim.ui.input = require"popui.input-overrider"
+-- require('refactoring').setup({})
 
 -- nvim tree
 require'nvim-tree'.setup {}
@@ -70,3 +69,10 @@ require('telescope').setup{
     buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
   }
 }
+
+require('flote').setup({
+  q_to_quit = true,
+  window_style = 'minimal',
+  window_border = 'solid',
+  window_title = true
+})
