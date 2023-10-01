@@ -60,9 +60,21 @@ tsx.init = function(ls)
 				-- return vim.fn.expand("%:t:r")
 			end, {}),
 			i(1),
-			t {") {", "\t", "\treturn (", "\t\t<div>", "\t\t\t"},
+			t {") {", "\t", "\treturn (", "\t\t\t"},
 			i(2),
-			t {"", "\t\t</div>", "\t)", "}"},
+			t {"", "\t)", "}"},
+		}),
+
+		-- functional component with export
+		s("erfc", {
+			f(function ()
+				return "export default function " .. fname() .. "("
+				-- return vim.fn.expand("%:t:r")
+			end, {}),
+			i(1),
+			t {") {", "\t", "\treturn (", "\t\t\t"},
+			i(2),
+			t {"", "\t)", "}"},
 		}),
 
 		-- function

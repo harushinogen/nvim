@@ -2,13 +2,14 @@
 -- require('refactoring').setup({})
 
 -- nvim tree
-require'nvim-tree'.setup {}
-
--- NNN
-require("nnn").setup()
-local builtin = require("nnn").builtin
-mappings = {
-  { "l", builtin.open },       -- open file(s) in tab
+require'nvim-tree'.setup {
+  view = {
+    width = 50,
+    number = true,
+  },
+  diagnostics = {
+    enable= true
+  }
 }
 
 -- Indent Blankline

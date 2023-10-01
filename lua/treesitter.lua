@@ -1,7 +1,7 @@
 require 'nvim-treesitter.configs'.setup {
 
 	ensure_installed = {
-		"php", "dart", "python", "javascript", "typescript", "rust", "lua", "c", "json", "markdown", "html"
+		"php", "dart", "python", "javascript", "typescript", "rust", "lua", "c", "json", "markdown", "html", "blueprint"
 	},
 
 	highlight = {
@@ -12,7 +12,7 @@ require 'nvim-treesitter.configs'.setup {
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = {"vala", "scss", "prisma"},
+		additional_vim_regex_highlighting = {"vala", "scss", "prisma", "blueprint"},
 	},
 
 
@@ -103,6 +103,15 @@ parser_config.xml = {
 		files = {  "src/parser.c" },
 		-- optional entries:
 		branch = "main",
-		require_generate_from_gramar = false,
+		require_generate_from_grammar = false,
+	}
+}
+	parser_config.blueprint = {
+	install_info = {
+		url ="~/repos/utils/tree-sitter-blueprint",
+		files = {  "src/parser.c" },
+		-- optional entries:
+		branch = "main",
+		require_generate_from_grammar = false,
 	}
 }

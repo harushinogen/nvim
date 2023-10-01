@@ -4,7 +4,6 @@ require('packer').startup(function()
   -- common
 
   -- Cokeline
-  use 'noib3/nvim-cokeline'
   use 'kyazdani42/nvim-web-devicons' -- If you want devicons
 
   -- Nvim tree
@@ -79,14 +78,10 @@ require('packer').startup(function()
   -- Comment
   use 'numToStr/Comment.nvim'
 
-  -- Floaterm
-  use 'voldikss/vim-floaterm'
+  use 'ThePrimeagen/harpoon'
 
   -- Blankline
   use 'lukas-reineke/indent-blankline.nvim'
-
-  -- NNN
-  use 'luukvbaal/nnn.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -103,8 +98,7 @@ require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'onsails/lspkind.nvim' -- Additional information in the completion menu
 
-  -- Snippet
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'L3MON4D3/LuaSnip'
 
   -- Emmet
   use 'mattn/emmet-vim' -- Emmet
@@ -180,12 +174,19 @@ require('packer').startup(function()
     'JellyApple102/flote.nvim'
 }
 
+  use { 'echasnovski/mini.nvim', branch = 'stable' }
+
+  use 'ianding1/leetcode.vim'
+
   -- -- Polyglot for syntax highlighting
   use 'sheerun/vim-polyglot'
   --
+  use 'mfussenegger/nvim-dap'
+  use "jay-babu/mason-nvim-dap.nvim"
+  --
   -- -- DAP
   -- use "theHamsta/nvim-dap-virtual-text"
-  -- use "rcarriga/nvim-dap-ui"
+  use "rcarriga/nvim-dap-ui"
   -- use "mfussenegger/nvim-dap-python"
   -- use "nvim-telescope/telescope-dap.nvim"
   --

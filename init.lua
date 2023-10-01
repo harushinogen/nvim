@@ -9,7 +9,9 @@ require 'treesitter'
 require 'cosmetics'
 require 'colorscheme'
 require 'statusline'
--- require 'config.dap'.setup()
+require 'dap-config'
+
+require("mini.basics").setup()
 
 local o = vim.opt
 o.list = true
@@ -18,7 +20,6 @@ o.hidden = true
 o.splitright = true
 o.splitbelow = true
 
--- TODO change it to native lua
 vim.cmd [[
 set number relativenumber
 
@@ -34,7 +35,10 @@ let g:gruvbox_material_background = 'soft'
 let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_transparent_background = 1
 
-set mouse=
+" Leetcode
+let g:leetcode_solution_filetype = 'javascript'
+let g:leetcode_browser = 'firefox'
+let g:leetcode_hide_paid_only = 1
 
 " Colorscheme stuff
 set termguicolors
@@ -89,11 +93,6 @@ hi scssTSProperty guifg=blue
 set laststatus=3
 
 ]]
-
-if vim.g.neovide then
-  vim.o.guifont = "FuraCode Nerd Font:h11"
-  vim.g.neovide_cursor_animation_length = 0
-end
 
 
 -- nnoremap <leader>l :nohlsearch<C-r>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>

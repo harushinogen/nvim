@@ -1,4 +1,3 @@
-local ls = require "luasnip"
 
 local function map(mode, shortcut, command, callback)
 	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true, callback = callback })
@@ -18,6 +17,10 @@ end
 
 vim.g.mapleader = " " -- Set leader to space
 
+-- LeetCode
+nmap("<leader>ll", "<cmd>LeetCodeList<cr>")
+nmap("<leader>ls", "<cmd>LeetCodeSubmit<cr>")
+nmap("<leader>lt", "<cmd>LeetCodeTest<cr>")
 
 -- Telescope
 nmap("<leader>ff", "<cmd>Telescope find_files<cr>")
@@ -25,11 +28,18 @@ nmap("<leader>fg", "<cmd>Telescope live_grep<cr>")
 nmap("<leader>fb", "<cmd>Telescope buffers<cr>")
 nmap("<leader>fh", "<cmd>Telescope help_tags<cr>")
 
--- Easy align
-xmap("ga", "<Plug>(EasyAlign)")
-nmap("ga", "<Plug>(EasyAlign)")
-nmap("<leader>nn", "<cmd>NnnExplorer<CR>")
-nmap("<leader>np", "<cmd>NnnPicker<CR>")
+-- Harpoon
+nmap("ga",  '', require("harpoon.mark").add_file)
+nmap("gu",  '', require("harpoon.ui").toggle_quick_menu)
+nmap("g1",  '', function() require("harpoon.ui").nav_file(1) end)
+nmap("g2",  '', function() require("harpoon.ui").nav_file(2) end)
+nmap("g3",  '', function() require("harpoon.ui").nav_file(3) end)
+nmap("g4",  '', function() require("harpoon.ui").nav_file(4) end)
+nmap("g5",  '', function() require("harpoon.ui").nav_file(5) end)
+nmap("g6",  '', function() require("harpoon.ui").nav_file(6) end)
+nmap("g7",  '', function() require("harpoon.ui").nav_file(7) end)
+nmap("g8",  '', function() require("harpoon.ui").nav_file(8) end)
+nmap("g9",  '', function() require("harpoon.ui").nav_file(9) end)
 
 -- LSP
 local lbuf = vim.lsp.buf
@@ -71,6 +81,7 @@ nmap("<a-x>", "<cmd>close<cr>")
 -------------
 -- Luasnip --
 -------------
+local ls = require "luasnip"
 
 -- Expand
 vim.keymap.set({ "i", "s" }, "<c-s>", function()
@@ -93,8 +104,16 @@ vim.keymap.set({ "i", "s" }, "<c-l>", function()
 	end
 end)
 
--- nmap("<leader>db", ":lua require'dap'.toggle_breakpoint()<cr>")
--- nmap("<leader>dc", ":lua require'dap'.continue()<cr>")
+-- DAP
+nmap("<F4>", "", require'dapui'.toggle)
+nmap("<F5>", "", require'dap'.toggle_breakpoint)
+nmap("<F9>", "", require'dap'.continue)
+
+nmap("<F1>", "", require'dap'.step_over)
+nmap("<F2>", "", require'dap'.step_into)
+nmap("<F2>", "", require'dap'.step_out)
+
+nmap("<F6>", "", require'dap'.terminate)
 
 -- Treesitter
 nmap('<leader>th', ':TSHighlightCapturesUnderCursor<cr>')
