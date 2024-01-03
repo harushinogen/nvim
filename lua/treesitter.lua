@@ -1,7 +1,7 @@
 require 'nvim-treesitter.configs'.setup {
 
 	ensure_installed = {
-		"php", "dart", "python", "javascript", "typescript", "rust", "lua", "c", "json", "markdown", "html", "blueprint"
+		"php", "dart", "python", "javascript", "typescript", "rust", "lua", "c", "json", "markdown", "html", "blueprint", "astro", "tsx", "css", "nu"
 	},
 
 	highlight = {
@@ -106,7 +106,8 @@ parser_config.xml = {
 		require_generate_from_grammar = false,
 	}
 }
-	parser_config.blueprint = {
+
+parser_config.blueprint = {
 	install_info = {
 		url ="~/repos/utils/tree-sitter-blueprint",
 		files = {  "src/parser.c" },
@@ -115,3 +116,14 @@ parser_config.xml = {
 		require_generate_from_grammar = false,
 	}
 }
+
+parser_config.nu = {
+  install_info = {
+    url = "~/repos/utils/tree-sitter-nu",
+    files = { "src/parser.c" },
+    branch = "main",
+		require_generate_from_grammar = false,
+  },
+  filetype = "nu",
+}
+

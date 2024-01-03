@@ -11,7 +11,7 @@ local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local servers = { 'html', 'intelephense', 'vala_ls', 'dartls', 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'cssls',
-  'svelte', "lua_ls", 'prismals', 'zls' }
+  'svelte', "lua_ls", 'prismals', 'zls', 'eslint', 'astro' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = function (client, bufnr)

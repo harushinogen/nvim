@@ -1,5 +1,6 @@
 require 'impatient'
 
+require 'filetype'
 require 'utilities'
 require 'plugins'
 require 'keybinds'
@@ -92,8 +93,10 @@ hi scssTSProperty guifg=blue
 " set winbar=%t%m
 set laststatus=3
 
-]]
+autocmd BufRead,BufEnter *.astro set filetype=astro
+" autocmd BufRead,BufEnter *.nu set filetype=nu
 
+]]
 
 -- nnoremap <leader>l :nohlsearch<C-r>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 -- set termguicolors
