@@ -15,9 +15,7 @@ require'nvim-tree'.setup {
 -- Indent Blankline
 vim.opt.list = true
 
-require("indent_blankline").setup {
-    show_end_of_line = true,
-}
+require("ibl").setup { }
 
 
 -- Comment.nvim
