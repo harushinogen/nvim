@@ -34,7 +34,7 @@ ls.config.set_config {
 
 ls.cleanup()
 
-require('snippets/typescriptreact').init(ls)
+require('snippets/typescriptreact').init()
 
 local ternary = s("ter", {
 	-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"

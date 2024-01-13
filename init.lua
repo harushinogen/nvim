@@ -1,7 +1,7 @@
 require 'impatient'
 
-require 'filetype'
 require 'utilities'
+require 'filetype'
 require 'plugins'
 require 'keybinds'
 require 'lsp'
@@ -11,6 +11,7 @@ require 'cosmetics'
 require 'colorscheme'
 require 'statusline'
 require 'dap-config'
+require 'commands'
 
 require("mini.basics").setup()
 

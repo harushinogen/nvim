@@ -1,6 +1,8 @@
 -- nicer input and select overide
 -- require('refactoring').setup({})
 
+require("react-extract").setup()
+
 -- nvim tree
 require'nvim-tree'.setup {
   view = {
@@ -12,11 +14,14 @@ require'nvim-tree'.setup {
   }
 }
 
--- Indent Blankline
 vim.opt.list = true
 
+-- Indent Blankline
 require("ibl").setup { }
 
+
+-- Refactoring 
+require('refactoring').setup({})
 
 -- Comment.nvim
 require('Comment').setup()

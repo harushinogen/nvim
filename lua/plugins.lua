@@ -12,10 +12,15 @@ require('packer').startup(function()
   use 'stevearc/dressing.nvim'
 
   -- Rainbow parentheses
-  use 'HiPhish/nvim-ts-rainbow2'
+  -- use 'HiPhish/nvim-ts-rainbow2'
+
+  use "napmn/react-extract.nvim"
+
+  -- luarocks
+  use_rocks 'stringy'
 
   -- Null Ls
-  use 'jose-elias-alvarez/null-ls.nvim'
+  use 'nvimtools/none-ls.nvim'
   use 'MunifTanjim/prettier.nvim'
 
   -- Vim Surround
@@ -30,6 +35,11 @@ require('packer').startup(function()
     end
   })
 
+  -- move 
+  use "hinell/move.nvim"
+
+  -- lua signature for vim
+  use 'folke/neodev.nvim'
 
   -- Improve loading time with caching
   use 'lewis6991/impatient.nvim'
@@ -119,13 +129,13 @@ require('packer').startup(function()
   -- Lualine
   -- use 'nvim-lualine/lualine.nvim'
 
-  -- use {
-  --   "ThePrimeagen/refactoring.nvim",
-  --   requires = {
-  --       {"nvim-lua/plenary.nvim"},
-  --       {"nvim-treesitter/nvim-treesitter"}
-  --   }
-  -- }
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    requires = {
+        {"nvim-lua/plenary.nvim"},
+        {"nvim-treesitter/nvim-treesitter"}
+    }
+  }
   -- Prisma syntax
   -- use 'pantharshit00/vim-prisma'
 

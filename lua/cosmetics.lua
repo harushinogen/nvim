@@ -24,3 +24,19 @@
 		lualine_z = { 'location' }
 	},
 }) ]]
+
+require("nvim-web-devicons").set_icon {
+	astro = {
+		icon = "",
+		color = "#EEEEEE",
+		name = "astro"
+	},
+	gitignore = {
+		color = "#e77829",
+	},
+	-- typescriptreact = {
+	-- 	icon = "",
+	-- 	color = "#078fb2",
+	-- 	name = "tsx"
+	-- }
+}

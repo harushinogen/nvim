@@ -1,3 +1,7 @@
+-- vim signature
+require("neodev").setup({
+  -- add any options here, or leave empty to use the default settings
+})
 -- nvim_lsp object
 require("mason").setup()
 require("mason-lspconfig").setup()
@@ -24,6 +28,16 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- none ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+    },
+})
+
 require('mini.completion').setup({
   auto_setup = true
 })
+
