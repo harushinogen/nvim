@@ -1,7 +1,7 @@
-name = function() return vim.api.nvim_buf_get_name(0) end
-cwd = vim.fn.getcwd
+local name = function() return vim.api.nvim_buf_get_name(0) end
+local cwd = vim.fn.getcwd
 
-function get_name()
+local function get_name()
     local escaped_cwd = string.gsub(cwd(), "([%^%$%(%)%%%.%[%]%*%+%-%?%)])", "%%%1")
     local filename = string.gsub(name(), escaped_cwd, ""):sub(2)
 
@@ -21,12 +21,12 @@ local map = vim.tbl_map
 
 local d = vim.diagnostic
 
-function get_diag_count(key)
+function GetDiagCount(key)
     local symbol = {
         ERROR = "│  ",
         WARN = " ",
         INFO = " ",
-        HINT = " "
+        HINT = " "
     }
     if (table.getn(vim.lsp.get_active_clients()) == 0) then
         return ""
@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
     end
 })
 
-function get_file_type()
+function GetFileType()
     local extension = get_name():gsub("^.*%.(%w*)$", "%1")
     local filename = get_name()
     local icon, color = require 'nvim-web-devicons'.get_icon_color(filename, extension)
@@ -75,16 +75,22 @@ function get_file_type()
     end
 end
 
+function GetPackageStatus()
+  local package_info = require("package-info")
+  return package_info.get_status()
+end
+
 o.statusline = [[%#conditional#│ %{get(b:, "filename", "")}%m%r%h ]]
     .. "%#StatusGitBranch#"
     .. [[%{get(b:, "git_status", "")}]]
-    -- .. "%#DiagnosticSignError# "
-    -- .. [[%{luaeval('get_diag_count("ERROR")')} ]]
-    -- .. "%#DiagnosticSignWarn#"
-    -- .. [[%{luaeval('get_diag_count("WARN")')} ]]
-    -- .. "%#DiagnosticSignInfo#"
-    -- .. [[%{luaeval('get_diag_count("INFO")')} ]]
-    -- .. "%#DiagnosticSignHint#"
-    -- .. [[%{luaeval('get_diag_count("HINT")')}]]
-    .. "%=%#TypeIcon#%{luaeval('get_file_type()')}"
+    .. "%#DiagnosticSignError# "
+    .. [[%{luaeval('GetDiagCount("ERROR")')} ]]
+    .. "%#DiagnosticSignWarn#"
+    .. [[%{luaeval('GetDiagCount("WARN")')} ]]
+    .. "%#DiagnosticSignInfo#"
+    .. [[%{luaeval('GetDiagCount("INFO")')} ]]
+    .. "%#DiagnosticSignHint#"
+    .. [[%{luaeval('GetDiagCount("HINT")')}]]
+    .. [[%{luaeval('GetPackageStatus()')}]]
+    .. "%=%#TypeIcon#%{luaeval('GetFileType()')}"
     .. " %#string#│ %l:%c "

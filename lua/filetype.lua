@@ -1,5 +1,9 @@
 vim.filetype.add({
   extension = {
-    nu = 'nu'
-  }
+    nu = 'nu',
+    astro = 'astro',
+  },
+  -- pattern = {
+  --   ['.*%.blade%.php'] = 'blade',
+  -- }
 })

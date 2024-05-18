@@ -1,19 +1,24 @@
-require 'impatient'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
 
-require 'utilities'
-require 'filetype'
-require 'plugins'
-require 'keybinds'
-require 'lsp'
-require 'snippets'
-require 'treesitter'
-require 'cosmetics'
-require 'colorscheme'
-require 'statusline'
-require 'dap-config'
-require 'commands'
+vim.opt.rtp:prepend(lazypath)
 
-require("mini.basics").setup()
+vim.g.mapleader = " "
+
+require("lazy").setup("plugins")
+
+require("filetype")
+-- require("commands")
+require("statusline")
 
 local o = vim.opt
 o.list = true
@@ -22,7 +27,7 @@ o.hidden = true
 o.splitright = true
 o.splitbelow = true
 
-vim.cmd [[
+vim.cmd([[
 set number relativenumber
 
 let g:floaterm_keymap_new = '<leader>ft'
@@ -58,6 +63,7 @@ set nowrap
 
 " Indentation
 set expandtab
+autocmd BufRead,BufEnter *.astro set filetype=astro
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -94,10 +100,11 @@ hi scssTSProperty guifg=blue
 " set winbar=%t%m
 set laststatus=3
 
-autocmd BufRead,BufEnter *.astro set filetype=astro
+" autocmd VeryLazy TSEnable highlight
+" autocmd BufRead,BufEnter *.astro TSEnable highlight
 " autocmd BufRead,BufEnter *.nu set filetype=nu
 
-]]
+]])
 
 -- nnoremap <leader>l :nohlsearch<C-r>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 -- set termguicolors
@@ -105,4 +112,3 @@ autocmd BufRead,BufEnter *.astro set filetype=astro
 -- set tabstop=2
 -- set softtabstop=2
 -- set hidden
-

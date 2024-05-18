@@ -21,23 +21,12 @@ local f = ls.function_node
 -- local types = require("luasnip.util.types")
 -- local conds = require("luasnip.extras.expand_conditions")
 
----@param name string
----@param from string
-local function insert_import_tsx(name, from)
-	local text = "import " .. name .. " from " .. '"' .. from .. '"'
-	-- find useState from react
-	-- > found => don't do anything
-	-- find react
-	-- > found => append useState to the items
-	-- > not found => add new import
-	vim.api.nvim_buf_set_lines(0, 0, 0, true, { text })
-end
+local ts_import = require("ts-import")
+
 
 local useState = s({ trig = "st(.*)", regTrig = true }, {
 	t("const ["),
 	f(function(_, snip)
-		insert_import_tsx("{ useState }", "react")
-
 		local text = snip.captures[1]
 		local head = string.upper(string.sub(text, 0, 1))
 		local tail = string.sub(text, 2)
@@ -48,6 +37,9 @@ local useState = s({ trig = "st(.*)", regTrig = true }, {
 	t("("),
 	i(2),
 	t(");"),
+	f(function()
+		ts_import.insert_named_import_tsx("useState", "react", 0)
+	end),
 })
 
 local function fname()
@@ -76,24 +68,16 @@ local erfc = s("erfc", {
 	t({ "", "\t)", "}" }),
 })
 
-local ref = s("ref", { 
-	f(function() 
-		insert_import_tsx("{ useRef, type ElementRef }", "react")
-		-- insert_import_tsx("{ useIntersectionObserver }", "@utils/hooks")
+local ref = s("ref", {
+	f(function()
+		ts_import.insert_named_import_tsx("useRef", "react", 0)
+		ts_import.insert_named_import_tsx("type ElementRef", "react", 0)
 	end),
 	t("const "),
-	i(1, "ref"), 
-	t(' = useRef<ElementRef<"'), i(2, "div"), t('">>(null);'),
-	-- t({"","const "}),
-	-- i(3, "entry"), 
-	-- t(' = useIntersectionObserver('),
-	-- f(function(_, snip) return snip.captures[1] end),
-	-- t(', {'),
-	-- i(4),
-	-- t('})'),
-	-- t({"","const isVisible = !!"}),
-	-- f(function(_, snip) return snip.captures[3] end),
-	-- t('.isVisible')
+	i(1, "ref"),
+	t(' = useRef<ElementRef<"'),
+	i(2, "div"),
+	t('">>(null);'),
 })
 
 local clsx = s("clsx", { t('import clsx from "clsx"') })
@@ -104,18 +88,19 @@ tsx.init = function()
 		ref,
 		clsx,
 		erfc,
-		useState
+		useState,
 	}
 
 	local js_snippets = {
 		erfc,
 		clsx,
 		rfc,
-		useState
+		useState,
 	}
 
 	ls.add_snippets("typescriptreact", ts_snippets)
 	ls.add_snippets("javascript", js_snippets)
+	ls.add_snippets("javascriptreact", js_snippets)
 end
 
 return tsx
